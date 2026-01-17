@@ -58,6 +58,74 @@ karrot-zeronine/
 
 ---
 
+## 🏃 Quick Start
+
+### 1. 인프라 실행
+```bash
+# PostgreSQL, Redis, Kafka 컨테이너 실행
+docker-compose up -d
+```
+
+### 2. 빌드 & 실행
+```bash
+# 빌드
+./gradlew build
+
+# API 서버 실행
+./gradlew :api:bootRun
+
+# 배치 서버 실행 (별도 터미널)
+./gradlew :batch:bootRun
+```
+
+### 3. API 테스트
+```bash
+# Swagger UI
+open http://localhost:8080/swagger-ui.html
+
+# 딜 생성
+curl -X POST http://localhost:8080/api/v1/deals \
+  -H "Content-Type: application/json" \
+  -H "X-User-Id: 1" \
+  -d '{
+    "title": "테스트 딜",
+    "description": "설명",
+    "originalPrice": 10000,
+    "dealPrice": 7000,
+    "totalStock": 100,
+    "startTime": "2025-01-18T10:00:00",
+    "endTime": "2025-01-19T10:00:00",
+    "regionCode": "SEOUL-01"
+  }'
+```
+
+### 4. 테스트 실행
+```bash
+# 전체 테스트
+./gradlew test
+
+# 특정 모듈 테스트
+./gradlew :core:test
+./gradlew :api:test
+```
+
+---
+
+## 📊 주요 API 엔드포인트
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/v1/deals` | 딜 생성 |
+| GET | `/api/v1/deals/{uuid}` | 딜 조회 |
+| POST | `/api/v1/deals/{uuid}/activate` | 딜 활성화 |
+| GET | `/api/v1/deals/region/{code}` | 지역별 딜 목록 |
+| POST | `/api/v1/orders` | 주문 생성 |
+| POST | `/api/v1/orders/{uuid}/pay` | 결제 완료 |
+| POST | `/api/v1/orders/{uuid}/cancel` | 주문 취소 |
+| GET | `/api/v1/deals/async/regions` | 다중 지역 병렬 조회 (Coroutines) |
+
+---
+
 
 ## 핵심 기술 목표 (Kotlin & Spring Boot 마스터링 포인트)
 
