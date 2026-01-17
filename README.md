@@ -4,6 +4,60 @@
 
 > Kotlin + Spring Boot + Kafka 실전 학습 가즈아
 
+---
+
+## 🚀 구현 현황
+
+### Tech Stack
+| Category | Technology | Version |
+|----------|-----------|---------|
+| Language | Kotlin | 2.3.0 |
+| Framework | Spring Boot | 3.4.1 |
+| JDK | Java | 21 LTS |
+| Database | PostgreSQL | 17 |
+| Cache | Redis | 7 |
+| Message Queue | Kafka | 7.9 |
+| Testing | Kotest + MockK | 6.0.7 |
+
+### 프로젝트 구조 (멀티 모듈)
+```
+karrot-zeronine/
+├── common/     # 확장 함수, 유틸리티
+├── core/       # 도메인 모델, Redis, Kafka, 캐싱
+├── api/        # REST API, Swagger, Coroutines
+├── batch/      # 배치 작업, Kafka Consumer
+└── docker-compose.yml
+```
+
+### ✅ 구현 완료 기능
+
+#### A. Kotlin Idiomatic Programming
+- [x] **Null Safety**: `?`, `?:` 연산자 활용, `Result<T>` 확장 함수
+- [x] **Extension Function**: `Deal.toResponse()`, `Order.toResponse()` DTO 변환
+- [x] **DSL**: `TestDataDsl` - Type-safe builder 패턴 테스트 데이터 생성
+- [x] **Immutability**: `val` 최대 활용, 불변 객체 설계
+
+#### B. 동시성 제어 및 대규모 트래픽 대응
+- [x] **Redis Lua Script**: `StockRedisService` - 원자적 재고 차감
+- [x] **Distributed Lock**: `DistributedLockService` - Redisson 분산 락
+- [x] **Pessimistic Lock**: `DealRepository.findByIdWithPessimisticLock()`
+- [x] **Optimistic Lock**: `BaseEntityWithVersion` (@Version 필드)
+- [x] **Cache Layer**: `DealCacheService` - Cache-Aside 패턴, 인기 딜 Sorted Set
+
+#### C. 비동기 이벤트 기반 아키텍처
+- [x] **Kafka Events**: `OrderEvent`, `DealEvent` sealed class
+- [x] **Event Publisher**: 주문/딜 이벤트 발행
+- [x] **Event Consumer**: 배치 모듈 Kafka Consumer
+- [x] **Kotlin Coroutines**: `DealAsyncService` - 병렬 조회 (async/await)
+
+#### D. 테스트
+- [x] **Kotest**: DescribeSpec, BehaviorSpec, FunSpec 스타일
+- [x] **MockK**: 의존성 모킹
+- [x] **Testcontainers**: PostgreSQL, Redis 통합 테스트
+- [x] **Test DSL**: `deal { }`, `order { }` 빌더 패턴
+
+---
+
 
 ## 핵심 기술 목표 (Kotlin & Spring Boot 마스터링 포인트)
 

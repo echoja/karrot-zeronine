@@ -43,3 +43,16 @@ abstract class BaseEntityWithUuid : BaseEntity() {
     @Column(nullable = false, unique = true, updatable = false, length = 36)
     val uuid: String = java.util.UUID.randomUUID().toString()
 }
+
+/**
+ * 낙관적 락을 지원하는 기본 엔티티
+ * @Version을 사용하여 동시성 충돌 감지
+ */
+@MappedSuperclass
+abstract class BaseEntityWithVersion : BaseEntityWithUuid() {
+
+    @Version
+    @Column(nullable = false)
+    var version: Long = 0L
+        protected set
+}
