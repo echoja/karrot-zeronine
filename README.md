@@ -171,6 +171,45 @@ View → Tool Windows → Database → + → Data Source → PostgreSQL
 
 ---
 
+## 🔥 부하 테스트 (k6)
+
+k6를 사용한 성능/부하 테스트를 지원합니다.
+
+### 설치
+```bash
+# macOS
+brew install k6
+```
+
+### 테스트 스크립트
+
+| 스크립트 | 설명 | 동시 사용자 |
+|----------|------|-------------|
+| `deal-create.js` | 딜 생성 API | 10 → 50 VUs |
+| `order-create.js` | 주문 생성 (동시성 검증) | 100 VUs |
+| `spike-test.js` | 스파이크 테스트 | 500 VUs |
+
+### 실행
+```bash
+# 딜 생성 부하 테스트
+k6 run load-test/scripts/deal-create.js
+
+# 주문 생성 부하 테스트 (Redis 동시성 검증)
+k6 run load-test/scripts/order-create.js
+
+# 스파이크 테스트 (순간 트래픽 폭증)
+k6 run load-test/scripts/spike-test.js
+```
+
+### 목표 지표
+| 지표 | 목표 |
+|------|------|
+| p95 응답시간 | < 500ms |
+| 실패율 | < 1% |
+
+자세한 내용은 [load-test/README.md](load-test/README.md) 참고
+
+---
 
 ## 핵심 기술 목표 (Kotlin & Spring Boot 마스터링 포인트)
 
