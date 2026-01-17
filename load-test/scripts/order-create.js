@@ -35,16 +35,29 @@ const DEAL_UUID = __ENV.DEAL_UUID || '';
 export function setup() {
   // 테스트용 딜 생성
   if (!DEAL_UUID) {
+    // 로컬 시간으로 설정 (타임존 문제 방지)
+    const now = new Date();
+    const startTime = new Date(now.getTime() + 10000);  // 10초 후
+    const endTime = new Date(now.getTime() + 86400000); // 1일 후
+
+    // 로컬 시간 포맷 (YYYY-MM-DDTHH:mm:ss)
+    const formatLocalDateTime = (date) => {
+      const pad = (n) => n.toString().padStart(2, '0');
+      return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+    };
+
     const payload = JSON.stringify({
       title: '부하테스트 주문용 딜',
       description: '동시성 테스트',
       originalPrice: 10000,
       dealPrice: 7000,
-      totalStock: 1000,  // 충분한 재고
-      startTime: new Date(Date.now() - 3600000).toISOString().slice(0, 19),
-      endTime: new Date(Date.now() + 86400000).toISOString().slice(0, 19),
+      totalStock: 100000,  // 충분한 재고 (10만개)
+      startTime: formatLocalDateTime(startTime),
+      endTime: formatLocalDateTime(endTime),
       regionCode: 'SEOUL-01',
     });
+
+    console.log(`딜 시작시간: ${formatLocalDateTime(startTime)}`);
 
     const headers = {
       'Content-Type': 'application/json',
@@ -62,9 +75,14 @@ export function setup() {
     const dealUuid = dealData.data.uuid;
 
     // 딜 활성화
-    http.post(`${BASE_URL}/api/v1/deals/${dealUuid}/activate`, null, { headers });
+    const activateResponse = http.post(`${BASE_URL}/api/v1/deals/${dealUuid}/activate`, null, { headers });
+    console.log(`딜 활성화 응답: ${activateResponse.body}`);
 
-    console.log(`테스트 딜 생성 완료: ${dealUuid}`);
+    // startTime까지 대기 (10초 + 여유 2초)
+    console.log('딜 시작 시간까지 대기 중... (12초)');
+    sleep(12);
+
+    console.log(`테스트 딜 생성 및 활성화 완료: ${dealUuid}`);
     return { dealUuid };
   }
 
