@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: karrot-zeronine-batch
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/karrot_zeronine
+    username: karrot
+    password: karrot123
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: karrot-zeronine-batch
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false
+
+redisson:
+  single-server-config:
+    address: redis://localhost:6379
+
+logging:
+  level:
+    root: INFO
+    com.karrot.zeronine: DEBUG
