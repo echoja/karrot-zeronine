@@ -111,6 +111,51 @@ curl -X POST http://localhost:8080/api/v1/deals \
 
 ---
 
+## 🛠️ IDE 설정 (IntelliJ IDEA)
+
+### 1. 프로젝트 열기
+```
+File → Open → karrot-zeronine 폴더 선택
+```
+Gradle 프로젝트로 자동 인식되며 의존성이 다운로드됩니다.
+
+### 2. JDK 설정
+- `File → Project Structure → Project` 에서 **JDK 21** 설정
+- 없으면 `Add SDK → Download JDK` 에서 Amazon Corretto 21 또는 Temurin 21 다운로드
+
+### 3. 실행 설정
+
+**API 서버 실행:**
+- `api/src/main/kotlin/com/karrot/api/ApiApplication.kt` 열기
+- `main` 함수 옆 ▶ 버튼 클릭 또는 `Shift + F10`
+
+**배치 서버 실행 (별도 터미널):**
+- `batch/src/main/kotlin/com/karrot/batch/BatchApplication.kt` 열기
+- 동일하게 ▶ 버튼 클릭
+
+### 4. Database 연결 (선택)
+```
+View → Tool Windows → Database → + → Data Source → PostgreSQL
+```
+| 항목 | 값 |
+|------|-----|
+| Host | localhost |
+| Port | 5432 |
+| Database | karrot |
+| User | karrot |
+| Password | karrot |
+
+### 5. 유용한 단축키
+| 단축키 | 기능 |
+|--------|------|
+| `Shift + F10` | 실행 |
+| `Ctrl + Shift + F10` | 현재 테스트 실행 |
+| `Cmd + Shift + T` | 테스트 파일로 이동 |
+| `Cmd + E` | 최근 파일 |
+| `Double Shift` | 전체 검색 |
+
+---
+
 ## 📊 주요 API 엔드포인트
 
 | Method | Endpoint | Description |
