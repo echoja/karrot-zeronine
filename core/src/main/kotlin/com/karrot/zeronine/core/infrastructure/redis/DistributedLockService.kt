@@ -29,7 +29,7 @@ class DistributedLockService(
      * @param action 락 획득 후 수행할 작업
      * @return 작업 결과 (락 획득 실패 시 null)
      */
-    inline fun <T> withLock(
+    fun <T> withLock(
         key: String,
         waitTime: Long = DEFAULT_WAIT_TIME,
         leaseTime: Long = DEFAULT_LEASE_TIME,
@@ -63,7 +63,7 @@ class DistributedLockService(
     /**
      * 주문 처리용 락 (딜 ID 기반)
      */
-    inline fun <T> withOrderLock(
+    fun <T> withOrderLock(
         dealId: Long,
         action: () -> T
     ): T? = withLock("order:deal:$dealId", action = action)
@@ -71,7 +71,7 @@ class DistributedLockService(
     /**
      * 재고 처리용 락 (딜 ID 기반)
      */
-    inline fun <T> withStockLock(
+    fun <T> withStockLock(
         dealId: Long,
         action: () -> T
     ): T? = withLock("stock:deal:$dealId", action = action)
@@ -79,7 +79,7 @@ class DistributedLockService(
     /**
      * 사용자별 동시 주문 방지 락
      */
-    inline fun <T> withUserOrderLock(
+    fun <T> withUserOrderLock(
         userId: Long,
         dealId: Long,
         action: () -> T

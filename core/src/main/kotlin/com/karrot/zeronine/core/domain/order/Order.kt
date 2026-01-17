@@ -46,15 +46,15 @@ class Order(
 
     @Column
     var paidAt: LocalDateTime? = null
-        private set
+        protected set
 
     @Column
     var cancelledAt: LocalDateTime? = null
-        private set
+        protected set
 
     @Column(length = 500)
     var cancelReason: String? = null
-        private set
+        protected set
 
     /**
      * 결제 완료 처리
