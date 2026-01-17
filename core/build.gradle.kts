@@ -25,6 +25,10 @@ dependencies {
     // Redis & Distributed Lock
     api("org.redisson:redisson-spring-boot-starter:$redissonVersion")
 
+    // Netty DNS resolver for macOS
+    runtimeOnly("io.netty:netty-resolver-dns-native-macos::osx-aarch_64")  // Apple Silicon
+    runtimeOnly("io.netty:netty-resolver-dns-native-macos::osx-x86_64")    // Intel Mac
+
     // Kafka
     api("org.springframework.kafka:spring-kafka")
 
